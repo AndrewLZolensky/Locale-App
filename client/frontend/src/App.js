@@ -1,29 +1,25 @@
-import axios from 'axios';
-import './App.css';
-import SignIn from './SignIn.js'
-import SignUp from './SignUp.js'
-import Forum from './Forum'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Forum from './Forum';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme.js';
-
-
-const apiCall = () => {
-  axios.get('http://localhost:8080').then((data) => {
-    console.log(data);
-    })
-}
-
+import theme from './theme';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
-    <div className="App" style={{ margin: 'auto auto', height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <ThemeProvider theme={theme}>
-        <SignIn/>
-        {/* <div style={{backgroundColor:theme.palette.secondary.dark, flexGrow: 1}}>
-          <Forum/>
-        </div> */}
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path="/signup" element={isAuthenticated ? <Navigate to="/forum" /> : <SignUp onAuthenticated={() => setIsAuthenticated(true)} />} />
+          <Route path="/signin" element={isAuthenticated ? <Navigate to="/forum" /> : <SignIn onAuthenticated={() => setIsAuthenticated(true)} />} />
+          <Route path="/forum" element={!isAuthenticated ? <Navigate to="/signin" /> : <Forum />} />
+          <Route path="/" element={<Navigate to="/signin" />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -44,7 +44,7 @@ const Forum = () => {
           <LogOut sx={{ flexShrink: 0 }} />
         </Box>
         {/* Main content area */}
-        <Box sx={{ flex: 1, overflowY: 'auto', padding: theme.spacing(3), height: 'calc(100vh - 48px)' }}>
+        <Box sx={{ flex: 1, overflowY: 'auto', padding: theme.spacing(3), height: 'calc(100vh - 48px)', backgroundColor: theme.palette.secondary.dark }}>
           <TabPanel value="1">
             <ExploreComponent/>
           </TabPanel>

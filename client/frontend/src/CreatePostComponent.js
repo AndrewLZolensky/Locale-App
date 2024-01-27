@@ -9,21 +9,18 @@ const CreatePostComponent = () => {
   const theme = useTheme();
   const [image, setImage] = useState(null); // State for storing the uploaded image
 
-  const handleImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      setImage(URL.createObjectURL(img));
-    }
-  };
+  const handleSubmit = (event) => {};
 
   const textFieldStyle = {
     width: '100%', // Full width
     marginBottom: theme.spacing(3), // Margin bottom for spacing between fields
     '& .MuiInputBase-root': {
-      color: theme.palette.background.paper // Text color inside the input
+      color: 'black', // Set text color to black
+      fontFamily: 'Arial, sans-serif', // Set your desired font family here
     },
     '& .MuiInputLabel-root': {
-      color: theme.palette.background.default // Label color
+      color: 'black', // Set label color to black
+      fontFamily: 'Arial, sans-serif', // Set your desired font family here for the label
     },
     '& .MuiFilledInput-root': {
       backgroundColor: theme.palette.background.default, // Background color of the TextField
@@ -48,11 +45,9 @@ const CreatePostComponent = () => {
         maxRows={8}
         sx={textFieldStyle}
       />
-      <Button variant="contained" component="label" sx={{ marginY: theme.spacing(2) }}>
-        Upload Image
-        <input type="file" hidden onChange={handleImageChange} />
+      <Button variant="contained" onClick={handleSubmit} component="label" sx={{ marginY: theme.spacing(2) }}>
+        Post
       </Button>
-      {image && <Box component="img" src={image} alt="Uploaded image" sx={{ maxWidth: '100%', height: 'auto', marginY: theme.spacing(2) }} />}
     </Box>
   );
 };
