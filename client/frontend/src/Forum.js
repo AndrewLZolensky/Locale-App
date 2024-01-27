@@ -9,6 +9,7 @@ import MyPostsComponent from './MyPostsComponent.js';
 import CreatePostComponent from './CreatePostComponent.js';
 import MyRepliesComponent from './MyRepliesComponent.js';
 import UserPanel from './UserPanel'; // Import the UserPanel component
+import LogOut from './Logout.js';
 
 const tabsx = {
   color: theme.palette.background.default,
@@ -26,9 +27,12 @@ const Forum = () => {
   return (
     <ThemeProvider theme={theme}>
       <TabContext value={value}>
-        {/* Tabs at the top */}
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: theme.palette.secondary.dark, padding: theme.spacing(2) }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'auto' }}>
+        {/* Top bar with tabs, user info, and logout */}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: theme.palette.secondary.dark, padding: theme.spacing(2), display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {/* User info at the left */}
+          <UserPanel sx={{ flexShrink: 0 }} />
+          {/* Tabs in the center */}
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{ minHeight: '48px' }}>
               <Tab label="Explore" value="1" sx={tabsx}/>
               <Tab label="My Posts" value="2" sx={tabsx}/>
@@ -36,26 +40,23 @@ const Forum = () => {
               <Tab label="Post" value="4" sx={tabsx}/>
             </TabList>
           </Box>
+          {/* Additional space or a placeholder box can be added here if needed for alignment */}
+          <LogOut sx={{ flexShrink: 0 }} />
         </Box>
-        {/* Main content area with UserPanel on the left */}
-        <Box sx={{ display: 'flex', height: 'calc(100vh - 48px)' }}>
-          {/* UserPanel on the left under the tabs, reduced width */}
-          <UserPanel sx={{ width: '200px', flexShrink: 0, padding: theme.spacing(2) }} />
-          {/* TabPanel for content on the right */}
-          <Box sx={{ flex: 1, overflowY: 'auto' }}>
-            <TabPanel value="1" sx={{ padding: theme.spacing(3) }}>
-              <ExploreComponent/>
-            </TabPanel>
-            <TabPanel value="2" sx={{ padding: theme.spacing(3) }}>
-              <MyPostsComponent/>
-            </TabPanel>
-            <TabPanel value="3" sx={{ padding: theme.spacing(3) }}>
-              <MyRepliesComponent/>
-            </TabPanel>
-            <TabPanel value="4" sx={{ padding: theme.spacing(3) }}>
-              <CreatePostComponent/>
-            </TabPanel>
-          </Box>
+        {/* Main content area */}
+        <Box sx={{ flex: 1, overflowY: 'auto', padding: theme.spacing(3), height: 'calc(100vh - 48px)' }}>
+          <TabPanel value="1">
+            <ExploreComponent/>
+          </TabPanel>
+          <TabPanel value="2">
+            <MyPostsComponent/>
+          </TabPanel>
+          <TabPanel value="3">
+            <MyRepliesComponent/>
+          </TabPanel>
+          <TabPanel value="4">
+            <CreatePostComponent/>
+          </TabPanel>
         </Box>
       </TabContext>
     </ThemeProvider>
@@ -63,3 +64,4 @@ const Forum = () => {
 };
 
 export default Forum;
+

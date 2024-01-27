@@ -18,9 +18,10 @@ function App() {
   return (
     <div className="App" style={{ margin: 'auto auto', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <ThemeProvider theme={theme}>
-        <div style={{backgroundColor:theme.palette.secondary.dark, flexGrow: 1}}>
+        <SignIn/>
+        {/* <div style={{backgroundColor:theme.palette.secondary.dark, flexGrow: 1}}>
           <Forum/>
-        </div>
+        </div> */}
       </ThemeProvider>
     </div>
   );
