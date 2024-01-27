@@ -1,29 +1,20 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import TextField from '@mui/material/TextField';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme.js';
+import ExploreComponent from './ExploreComponent';
+import MyPostsComponent from './MyPostsComponent.js';
+import CreatePostComponent from './CreatePostComponent.js';
+import MyRepliesComponent from './MyRepliesComponent.js';
+import UserPanel from './UserPanel'; // Import the UserPanel component
 
-// Define your theme
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#556cd6',
-        light: '#788bff',
-        dark: '#334cb2',
-      },
-      secondary: {
-        main: '#19857b',
-        light: '#4fb3bf',
-        dark: '#005f56',
-      },
-      divider: 'rgba(0, 0, 0, 0.12)', // You can also define the divider color here
-      // ... other colors
-    },
-  });
-  
+const tabsx = {
+  color: theme.palette.background.default,
+  '&.Mui-selected': { color: theme.palette.background.paper },
+  '&.MuiTab-root': { minWidth: 'auto', padding: '12px 16px' } // Adjust padding for tabs
+};
 
 const Forum = () => {
   const [value, setValue] = useState('1');
@@ -33,31 +24,41 @@ const Forum = () => {
   };
 
   return (
-    <TabContext value={value}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: theme.palette.primary.light}}>
-        {/* Flex container for centering TabList */}
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Explore" value="1" />
-            <Tab label="My Posts" value="2" />
-            <Tab label="My Replies" value="3" />
-            <Tab label="Post" value="4" />
-          </TabList>
+    <ThemeProvider theme={theme}>
+      <TabContext value={value}>
+        {/* Tabs at the top */}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: theme.palette.secondary.dark, padding: theme.spacing(2) }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'auto' }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{ minHeight: '48px' }}>
+              <Tab label="Explore" value="1" sx={tabsx}/>
+              <Tab label="My Posts" value="2" sx={tabsx}/>
+              <Tab label="My Replies" value="3" sx={tabsx}/>
+              <Tab label="Post" value="4" sx={tabsx}/>
+            </TabList>
+          </Box>
         </Box>
-      </Box>
-      <TabPanel value="1">
-        
-      </TabPanel>
-      <TabPanel value="2">Content of Item Two</TabPanel>
-      <TabPanel value="3">Content of Item Three</TabPanel>
-      <TabPanel value="4" sx={{display: 'flex', justifyContent: 'center'}}>
-        <div style={{display: 'flex', flexDirection: 'column', height: '60vh', justifyContent: 'space-around'}}>
-            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-            <TextField id="filled-basic" label="Filled" variant="filled" />
-            <TextField id="standard-basic" label="Standard" variant="standard" />
-        </div>
-      </TabPanel>
-    </TabContext>
+        {/* Main content area with UserPanel on the left */}
+        <Box sx={{ display: 'flex', height: 'calc(100vh - 48px)' }}>
+          {/* UserPanel on the left under the tabs, reduced width */}
+          <UserPanel sx={{ width: '200px', flexShrink: 0, padding: theme.spacing(2) }} />
+          {/* TabPanel for content on the right */}
+          <Box sx={{ flex: 1, overflowY: 'auto' }}>
+            <TabPanel value="1" sx={{ padding: theme.spacing(3) }}>
+              <ExploreComponent/>
+            </TabPanel>
+            <TabPanel value="2" sx={{ padding: theme.spacing(3) }}>
+              <MyPostsComponent/>
+            </TabPanel>
+            <TabPanel value="3" sx={{ padding: theme.spacing(3) }}>
+              <MyRepliesComponent/>
+            </TabPanel>
+            <TabPanel value="4" sx={{ padding: theme.spacing(3) }}>
+              <CreatePostComponent/>
+            </TabPanel>
+          </Box>
+        </Box>
+      </TabContext>
+    </ThemeProvider>
   );
 };
 
