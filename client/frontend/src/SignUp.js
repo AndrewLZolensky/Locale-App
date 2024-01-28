@@ -15,13 +15,33 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import theme from './theme.js';
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get('userName'),
+    const userData = {
+      userName: data.get('userName'),
       password: data.get('password'),
-    });
+    };
+    console.log(userData);
+
+    try {
+      const response = await fetch('http://localhost:8080/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      console.log(response);
+      if (response.ok) {
+        // Redirect to the signin page
+        window.location.href = '/signin';
+      } else {
+        // Handle errors (e.g., show an error message)
+      }
+    } catch (error) {};
+
+    
   };
 
   return (

@@ -7,9 +7,16 @@ import { useTheme } from '@mui/material/styles';
 
 const CreatePostComponent = () => {
   const theme = useTheme();
-  const [image, setImage] = useState(null); // State for storing the uploaded image
 
-  const handleSubmit = (event) => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const postData = {
+      name: data.get('name'),
+      summary: data.get('summary')
+    }
+    console.log(JSON.stringify(postData));
+  };
 
   const textFieldStyle = {
     width: '100%', // Full width
@@ -35,19 +42,32 @@ const CreatePostComponent = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '600px', margin: 'auto', padding: theme.spacing(3) }}>
-      <TextField id="name-field" label="Name" variant="filled" sx={textFieldStyle} />
-      <TextField
-        id="summary-field"
-        label="Summary"
-        variant="filled"
-        multiline
-        minRows={6}
-        maxRows={8}
-        sx={textFieldStyle}
-      />
-      <Button variant="contained" onClick={handleSubmit} component="label" sx={{ marginY: theme.spacing(2) }}>
-        Post
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <TextField 
+          id="name-field" 
+          name="name" // Add a name attribute
+          label="Name" 
+          variant="filled" 
+          sx={textFieldStyle} 
+        />
+        <TextField
+          id="summary-field"
+          name="summary" // Add a name attribute
+          label="Summary"
+          variant="filled"
+          multiline
+          minRows={6}
+          maxRows={8}
+          sx={textFieldStyle}
+        />
+        <Button 
+          type="submit" // Make this a submit button
+          variant="contained" 
+          sx={{ marginY: theme.spacing(2) }}
+        >
+          Post
+        </Button>
+      </form>
     </Box>
   );
 };

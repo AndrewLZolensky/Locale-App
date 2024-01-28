@@ -13,9 +13,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/signup" element={isAuthenticated ? <Navigate to="/forum" /> : <SignUp onAuthenticated={() => setIsAuthenticated(true)} />} />
-          <Route path="/signin" element={isAuthenticated ? <Navigate to="/forum" /> : <SignIn onAuthenticated={() => setIsAuthenticated(true)} />} />
-          <Route path="/forum" element={!isAuthenticated ? <Navigate to="/signin" /> : <Forum />} />
+          <Route path="/signup" element={!isAuthenticated ? <SignUp onAuthenticated={() => setIsAuthenticated(true)} /> : <Navigate to="/forum" />} />
+          <Route path="/signin" element={!isAuthenticated ? <SignIn onAuthenticated={() => setIsAuthenticated(true)} /> : <Navigate to="/forum" />} />
+          <Route path="/forum" element={isAuthenticated ? <Forum /> : <Navigate to="/signin" />} />
           <Route path="/" element={<Navigate to="/signin" />} />
         </Routes>
       </Router>

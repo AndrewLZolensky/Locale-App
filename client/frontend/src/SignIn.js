@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import theme from './theme.js';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -27,15 +28,37 @@ function Copyright(props) {
   );
 }
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
+export default function SignIn({onAuthenticated}) {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
+    const userData = {
+      userName: data.get('userName'),
       password: data.get('password'),
-    });
+    }
+    console.log(userData);
+
+    try {
+      const response = await fetch('http://localhost:8080/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        onAuthenticated(true);
+      } else {
+        console.log("Sign-in failed");
+        // Handle failed sign-in
+      }
+      console.log(response);
+    } catch (error) {};
   };
+
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,10 +83,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="userName"
+              label="Username"
+              name="userName"
+              autoComplete="username"
               autoFocus
             />
             <TextField
